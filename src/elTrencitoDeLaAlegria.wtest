@@ -1,0 +1,97 @@
+import trenes.*
+
+describe "trenes" {
+	
+	var formi = new Formacion()
+	var thomas = new VagonDePasajeros()
+	var bob = new VagonDeCarga()
+	var max = new VagonDePasajeros()
+	var io = new VagonDeCarga()
+	var lumi = new Locomotora()
+	var xentio = new Locomotora()
+	var ascio = new Locomotora()
+	
+	
+	var pipo = new Formacion()
+	var demo = new VagonDePasajeros()
+	var momo = new VagonDeCarga()
+	var vpam = new VagonDePasajeros()
+	var bo = new Locomotora ()
+	
+	var depo = new Deposito()
+	
+	fixture {
+		thomas.largo(10)
+		thomas.anchoUtil(8)
+		max.largo(2)
+		max.anchoUtil(2.6)
+		io.cargaMaxima(10000)
+		bob.cargaMaxima(8000)
+		formi.acoplarVagon(bob)
+		formi.acoplarVagon(max)
+	    formi.acoplarVagon(io)
+		formi.acoplarVagon(thomas)	
+		xentio.velocidadMaxima(100)
+	    xentio.pesoMaximo(15000)
+	    xentio.peso(1000)
+		ascio.velocidadMaxima(90)
+		ascio.pesoMaximo(12000)
+		ascio.peso(2000)
+		lumi.velocidadMaxima(150)
+		lumi.peso(500)
+		lumi.pesoMaximo(5000)
+		formi.acoplarLocomotora(ascio)
+		formi.acoplarLocomotora(xentio)
+		formi.acoplarLocomotora(lumi)
+			
+		demo.largo(20)
+		demo.anchoUtil(17)
+		momo.cargaMaxima(18000)
+		vpam.largo(30)
+		vpam.anchoUtil(26)
+		bo.velocidadMaxima(150)
+		bo.pesoMaximo(9000)
+		bo.peso(500)
+		bo.velocidadMaxima(250)
+		pipo.acoplarVagon(demo)
+		pipo.acoplarVagon(vpam)
+		pipo.acoplarVagon(momo)
+		pipo.acoplarLocomotora(bo)
+		
+		depo.guardarFormacion(pipo)
+		depo.guardarFormacion(formi)
+			
+	}
+	
+	test " vagones livianos"
+	{
+		assert.equals(formi.vagonesLivianos(),1)
+	}
+	
+	test "velocidad maxima" {
+		assert.equals(formi.velocidadMaxima(),ascio.velocidadMaxima())	
+	}
+	
+	test "formi es eficiente"{
+		assert.that(formi.esEficiente())
+	}
+	
+	test "formi puede moverse" {
+		assert.that( formi.puedeMoverse())
+	}
+	
+	test "a formi no le faltan kilos de empuje"{
+		assert.equals( formi.kilosDeEmpujeFaltantes(),0)
+	}
+	
+	test "vagones mas pesados"{
+		assert.equals( #{demo, bob}, depo.vagonesMasPesados())
+	}
+	
+	test "depo necesita un conducto experimentado"{
+		assert.that(depo.necesitaConductorExperimentado())
+	}
+	
+
+	
+}
